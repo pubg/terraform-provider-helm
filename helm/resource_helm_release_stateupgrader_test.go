@@ -75,6 +75,7 @@ resource "helm_release" "test" {
 					resource.TestCheckResourceAttrSet(resourceName, "metadata.first_deployed"),
 					resource.TestCheckResourceAttrSet(resourceName, "metadata.last_deployed"),
 					resource.TestCheckResourceAttr(resourceName, "metadata.revision", "2"),
+					resource.TestCheckNoResourceAttr(resourceName, "deletion_propagation"),
 				),
 			},
 		},

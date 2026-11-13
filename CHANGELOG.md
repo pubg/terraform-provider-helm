@@ -1,3 +1,12 @@
+## 3.3.1 (fork of hashicorp/terraform-provider-helm v3.3.0)
+
+This release is published from the PUBG fork as `pubg/helm`. It is based on upstream tag `v3.3.0`
+(commit `0e0a60f31`).
+
+ENHANCEMENT:
+
+* `resource/helm_release`: add `deletion_propagation` (`foreground`, `background` or `orphan`) to set the Kubernetes propagation policy used when the release is uninstalled. With `foreground` and `wait`, destroy waits until dependents with `blockOwnerDeletion` are deleted. Based on [GH-1365](https://github.com/hashicorp/terraform-provider-helm/pull/1365) without a default value.
+
 ## 3.3.0 (Aug 28, 2026)
 
 ENHANCEMENT:

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: deletion-propagation
+description: A chart with one owner ConfigMap for the deletion_propagation acceptance test
+type: application
+version: 1.0.0
+appVersion: 1.0.0

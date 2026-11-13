@@ -72,6 +72,7 @@ type HelmReleaseModel struct {
 	Chart                    types.String     `tfsdk:"chart"`
 	CleanupOnFail            types.Bool       `tfsdk:"cleanup_on_fail"`
 	CreateNamespace          types.Bool       `tfsdk:"create_namespace"`
+	DeletionPropagation      types.String     `tfsdk:"deletion_propagation"`
 	DependencyUpdate         types.Bool       `tfsdk:"dependency_update"`
 	Description              types.String     `tfsdk:"description"`
 	Devel                    types.Bool       `tfsdk:"devel"`
@@ -546,6 +547,13 @@ func (r *HelmRelease) Schema(ctx context.Context, req resource.SchemaRequest, re
 				Computed:    true,
 				Default:     booldefault.StaticBool(defaultAttributes["wait"].(bool)),
 				Description: "Will wait until all resources are in a ready state before marking the release as successful.",
+			},
+			"deletion_propagation": schema.StringAttribute{
+				Optional:    true,
+				Description: "Kubernetes propagation policy used when uninstalling the release: foreground, background or orphan. Unset uses the Helm default (background). With foreground and wait, destroy waits until dependents with blockOwnerDeletion are deleted.",
+				Validators: []validator.String{
+					stringvalidator.OneOf("foreground", "background", "orphan"),
+				},
 			},
 			"wait_for_jobs": schema.BoolAttribute{
 				Optional:    true,
@@ -1277,6 +1285,7 @@ func (r *HelmRelease) Delete(ctx context.Context, req resource.DeleteRequest, re
 	uninstall.Wait = state.Wait.ValueBool()
 	uninstall.DisableHooks = state.DisableWebhooks.ValueBool()
 	uninstall.Timeout = time.Duration(state.Timeout.ValueInt64()) * time.Second
+	uninstall.DeletionPropagation = state.DeletionPropagation.ValueString()
 
 	// Uninstall the release
 	tflog.Info(ctx, fmt.Sprintf("Uninstalling Helm release: %s", name))
