@@ -1,3 +1,7 @@
+> **PUBG fork.** This repository is a fork of [hashicorp/terraform-provider-helm](https://github.com/hashicorp/terraform-provider-helm)
+> based on upstream tag `v3.3.0`, published to the Terraform Registry as `pubg/helm`.
+> Fork changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
 <a href="https://terraform.io">
     <img src=".github/tf.png" alt="Terraform logo" title="Terraform" align="left" height="50" />
 </a>

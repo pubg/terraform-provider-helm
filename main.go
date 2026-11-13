@@ -29,7 +29,7 @@ func main() {
 	}
 
 	opts := providerserver.ServeOpts{
-		Address:         "registry.terraform.io/hashicorp/helm",
+		Address:         "registry.terraform.io/pubg/helm",
 		Debug:           debug,
 		ProtocolVersion: 6,
 	}
