@@ -25,6 +25,7 @@ A Chart is a Helm package. It contains all of the resource definitions necessary
 - `atomic` (Boolean) If set, installation process purges chart on fail. The wait flag will be set automatically if atomic is used. Defaults to `false`.
 - `cleanup_on_fail` (Boolean) Allow deletion of new resources created in this upgrade when upgrade fails. Defaults to `false`.
 - `create_namespace` (Boolean) Create the namespace if it does not exist. Defaults to `false`.
+- `deletion_propagation` (String) Kubernetes propagation policy used when uninstalling the release: foreground, background or orphan. Unset uses the Helm default (background). With foreground and wait, destroy waits until dependents with blockOwnerDeletion are deleted.
 - `dependency_update` (Boolean) Run helm dependency update before installing the chart. Defaults to `false`.
 - `description` (String) Add a custom description
 - `devel` (Boolean) Use chart development versions, too. Equivalent to version '>0.0.0-0'. If `version` is set, this is ignored
@@ -333,6 +334,20 @@ The `postrender` block supports two attributes:
 
 * `binary_path` - (Required) relative or full path to command binary.
 * `args` - (Optional) a list of arguments to supply to the post-renderer.
+
+## Deletion Propagation Notes
+
+`deletion_propagation` sets the Kubernetes propagation policy that Helm uses when the release is uninstalled:
+`foreground`, `background` or `orphan`. When it is not set, Helm uses `background`.
+
+With `foreground` and `wait = true`, destroy returns only after the objects of the release and their dependents
+that have `blockOwnerDeletion: true` are deleted. With `wait = false`, Helm does not wait, so destroy can return
+while the dependents are still being deleted. If a dependent never goes away, for example because its finalizer is
+not removed, destroy fails when `timeout` is reached.
+
+The policy is read from the state when the release is uninstalled. Apply the attribute before the destroy that
+needs it: adding it to an existing release and destroying in the same run uses the old value. Changing only this
+attribute on an existing release creates a new release revision, the same as changing `wait` or `timeout`.
 
 ## Upgrade Mode Notes
 
