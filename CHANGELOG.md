@@ -1,7 +1,7 @@
-## 3.3.1 (fork of hashicorp/terraform-provider-helm v3.3.0)
+## 1.0.0 (fork of hashicorp/terraform-provider-helm v3.3.0)
 
 This release is published from the PUBG fork as `pubg/helm`. It is based on upstream tag `v3.3.0`
-(commit `0e0a60f31`).
+(commit `0e0a60f31`). `pubg/helm` versions are numbered independently of upstream versions.
 
 ENHANCEMENT:
 
